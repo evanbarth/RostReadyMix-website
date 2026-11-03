@@ -46,7 +46,7 @@ The site is fully static. There is no build step, no framework, no database, and
 - **Request form:** it posts to any form endpoint (such as Power Automate or Formspree). If no endpoint is set, it falls back to a pre-filled email to accounting. A hidden honeypot field filters out basic spam bots.
 
 ### Hero video
-- **Drone footage of the Marshfield plant:** it was stabilized with FFmpeg (`vidstab`) and edited into a seamless loop with quick dissolves.
+- **Drone footage of the Rogersville plant:** it was stabilized with FFmpeg (`vidstab`) and edited into a seamless loop with quick dissolves.
 - **Two sizes:** 960px and 1600px versions are encoded, and the browser loads the one that fits the screen.
 - **Respects visitor settings:** visitors who prefer reduced motion, or who have data saver turned on, see a still image instead of the video.
 - **Saves resources:** the video pauses when scrolled out of view, and a pause button is always available.
