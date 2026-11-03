@@ -6,6 +6,15 @@ Corporate website developed and deployed for Rost Ready Mix, a concrete supplier
   <img src="https://github.com/user-attachments/assets/1dd2e63a-50ed-4785-9c9e-450ea776e224" alt="Scrolling tour of the Rost Ready Mix homepage: hero video, plant map, concrete calculator with Add to Project, Customer Center, and contact" width="100%">
 </p>
 
+## Screenshots
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/41f21818-cdad-4531-a1e7-c38d7080a628" alt="Rost Ready Mix homepage" width="100%">
+</p>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/ea4d94be-d0b7-4379-ba3f-8bceb7f3e996" alt="Rost Ready Mix website, additional view" width="100%">
+</p>
+
 ## Project Overview
 
 This project covered the full lifecycle of the company's public website: design, development, deployment, and ongoing maintenance using GitHub and Microsoft Azure.
@@ -43,12 +52,7 @@ The site is fully static. There is no build step, no framework, no database, and
 - **Request form:** it posts to any form endpoint (such as Power Automate or Formspree). If no endpoint is set, it falls back to a pre-filled email to accounting. A hidden honeypot field filters out basic spam bots.
 
 ### Hero video
-- **Drone footage of the Rogersville<img width="760" height="428" alt="rost-website-tour" src="https://github.com/user-attachments/assets/71467fe8-c26b-467b-93b8-f2acb7cfd33b" />
-
-
-https://github.com/user-attachments/assets/baccc834-ab8f-462b-a817-30cce3d36a1f
-
- plant:** it was stabilized with FFmpeg (`vidstab`) and edited into a seamless loop with quick dissolves.
+- **Drone footage of the Rogersville plant:** it was stabilized with FFmpeg (`vidstab`) and edited into a seamless loop with quick dissolves.
 - **Two sizes:** 960px and 1600px versions are encoded, and the browser loads the one that fits the screen.
 - **Respects visitor settings:** visitors who prefer reduced motion, or who have data saver turned on, see a still image instead of the video.
 - **Saves resources:** the video pauses when scrolled out of view, and a pause button is always available.
