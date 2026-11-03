@@ -20,7 +20,7 @@ GitHub and Microsoft Azure.
 
 ## Live Website
 
-[Visit Rost Ready Mix](https://rostreadymix.com)
+[Visit Rost Ready Mix](https://rostinc.com)
 
 ## Repository Information
 
