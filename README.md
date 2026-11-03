@@ -6,15 +6,6 @@ Corporate website developed and deployed for Rost Ready Mix, a concrete supplier
   <img src="https://github.com/user-attachments/assets/1dd2e63a-50ed-4785-9c9e-450ea776e224" alt="Scrolling tour of the Rost Ready Mix homepage: hero video, plant map, concrete calculator with Add to Project, Customer Center, and contact" width="100%">
 </p>
 
-## Screenshots
-
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/41f21818-cdad-4531-a1e7-c38d7080a628" alt="Rost Ready Mix homepage" width="100%">
-</p>
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/ea4d94be-d0b7-4379-ba3f-8bceb7f3e996" alt="Rost Ready Mix website, additional view" width="100%">
-</p>
-
 ## Project Overview
 
 This project covered the full lifecycle of the company's public website: design, development, deployment, and ongoing maintenance using GitHub and Microsoft Azure.
