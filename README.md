@@ -1,9 +1,9 @@
 # Rost Ready Mix | Corporate Website
 
-Corporate website developed and deployed for Rost Ready Mix, a concrete supplier serving southwest Missouri.
+Corporate website developed and deployed for Rost Ready Mix, an RMCMO company and concrete supplier serving southwest Missouri.
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/1dd2e63a-50ed-4785-9c9e-450ea776e224" alt="Scrolling tour of the Rost Ready Mix homepage: hero video, plant map, concrete calculator with Add to Project, Customer Center, and contact" width="100%">
+<img width="760" height="428" alt="rost-website-tour_1" src="https://github.com/user-attachments/assets/4b53f1e5-3bd0-469f-9771-95b795fa675b" />
 </p>
 
 ## Project Overview
@@ -12,7 +12,7 @@ This project covered the full lifecycle of the company's public website: design,
 
 The goal was a site that feels as premium as the brand. It also had to do real work for customers, job seekers, and the office. Contractors can estimate yardage and reach dispatch in one tap. New customers can download credit applications and tax-exempt forms. Applicants can find open positions and the right employment application. The office can post jobs and update details without a developer.
 
-The site is fully static. There is no build step, no framework, no database, and no third-party scripts, trackers, or cookies.
+The site is fully static. There is no build step, no framework, no database, and no trackers or analytics. The only third-party script is Google Maps for the plant map, and it loads only when a visitor scrolls near that section.
 
 ## Highlights
 
@@ -25,9 +25,13 @@ The site is fully static. There is no build step, no framework, no database, and
 - **Phones:** a pinned total bar keeps the result in view while the visitor scrolls back up through the form.
 
 ### Plant locations map
-- **Hand-built SVG map:** it shows every plant across both companies, Rost Ready Mix and its affiliate Kay Concrete Materials. Each company has its own marker: an orange diamond for Rost and a red "K" badge for Kay.
-- **Plotted from real coordinates:** plants and highways are placed from latitude and longitude with a simple projection, so distances are drawn to scale. Interstate, US, and state route shields are drawn in SVG as well.
-- **No map service:** there's no embedded Google Maps, so there's no API key, no tracking, and no extra page weight. Each plant links to its Google Maps listing for turn-by-turn directions.
+- **Three companies, one map:** every plant for Rost Ready Mix and its affiliates, Kay Concrete Materials and Joplin Concrete Company, on an embedded Google Map.
+- **Custom company markers:** each company has its own mark, drawn in SVG: an orange diamond with an italic "R" for Rost, a red "K" badge for Kay, and a blue "J" badge for Joplin Concrete. The same marks appear in the map key and the location list, so the three always match.
+- **Driven by the location list:** the map reads the plant list on the page (name, address, Directions link, coordinates). Adding a plant to the list adds its marker, with nothing to change in the script.
+- **Map and Directions:** each plant has a *Map* button that brings the map into view and opens that plant's card, plus a Directions link to its Google Maps listing.
+- **Loads only when needed:** Google's script isn't requested until the visitor scrolls near the map, so it adds nothing to the first page load. One-finger and scroll-wheel gestures keep scrolling the page instead of getting caught in the map.
+- **Fails gracefully:** if the map can't load, it shows a short message and the Directions links still work.
+- **Locked-down API key:** the key works only on the company's domains and only for the Maps JavaScript API.
 
 ### Careers
 - **Jobs live in one data file:** office staff add a listing by copying an entry in `jobs.js`. There's no HTML to edit and no CMS to maintain.
@@ -51,38 +55,51 @@ The site is fully static. There is no build step, no framework, no database, and
 ## How It Works
 
 ```
-index.html               Homepage: concrete, plants map, calculators, customer center, careers, contact
-customer/index.html      Customer Center  (rostinc.com/customer)
-careers/index.html       Careers          (rostinc.com/careers)
-assets/css/site.css      All styles; brand colors defined once as CSS custom properties
-assets/js/site.js        Shared settings and behavior (phone numbers, plants, calculator assumptions)
-assets/js/home.js        Section highlighting, hero video, calculators, project list
-assets/js/careers.js     Renders job listings, filters, and deep links
-assets/js/jobs.js        Job listings (the only file edited to post a job)
-assets/fonts/            Archivo variable font, self-hosted
-forms/                   Downloadable PDFs
+index.html                 Homepage: concrete, plants map, calculators, customer center, careers, contact
+customer/index.html        Customer Center  (www.rostinc.com/customer/)
+careers/index.html         Careers          (www.rostinc.com/careers/)
+404.html                   Page-not-found page, shown for any missing address
+staticwebapp.config.json   Azure hosting rules: caching, the 404 page, security headers
+robots.txt, sitemap.xml    Search engine crawling and indexing
+assets/css/site.css        All styles; brand colors defined once as CSS custom properties
+assets/js/site.js          Shared settings and behavior (phone numbers, plants, calculator assumptions)
+assets/js/home.js          Section highlighting, hero video, calculators, project list
+assets/js/plant-map.js     Google Map built from the plant list on the page
+assets/js/careers.js       Renders job listings, filters, and deep links
+assets/js/jobs.js          Job listings (the only file edited to post a job)
+assets/fonts/              Archivo variable font, self-hosted
+forms/                     Downloadable PDFs
 ```
 
-- **One source of truth for business details:** phone numbers, plant addresses, and calculator assumptions (truck capacity, ordering increment, bag yield) live in a single `SITE` settings object. Every phone link on every page is tagged with which line it dials and is filled in from those settings. Changing a number means editing one line.
-- **Clean URLs without a server:** each page is an `index.html` inside its own folder, so `/customer` and `/careers` work on any static host. When the files are opened straight from a computer for local preview, a small script rewrites those folder links so they still work.
+- **One source of truth for business details:** phone numbers and calculator assumptions (truck capacity, ordering increment, bag yield) live in a single `SITE` settings object. Every phone link on every page is tagged with which line it dials and is filled in from those settings. Changing a number means editing one line. The plant list on the homepage likewise feeds both the list and the map.
+- **Clean URLs without a server:** each page is an `index.html` inside its own folder, so `/customer/` and `/careers/` work on any static host. When the files are opened straight from a computer for local preview, a small script rewrites those folder links so they still work.
 - **Navigation that tracks the page:** the header menu highlights the section currently being read. Menu links land with the section title just below the sticky header.
+
+## Hosting and Deployment
+
+- **Azure Static Web Apps:** GitHub Actions deploys every push to `main`, and every pull request gets its own preview site for review before it goes live.
+- **Caching tuned per file type:** pages, styles, scripts, and PDFs revalidate on every visit, so updates appear right away. Fonts are cached for a year, and photos and video for a week.
+- **Custom 404 page:** any missing address, at any depth, returns a real 404 status with a branded page that links back to the main sections.
+- **Security headers:** HTTPS with HSTS, no framing by other sites, and camera, microphone, and location access turned off. Hosting rules and project notes aren't served publicly.
+- **One canonical domain:** `rostinc.com` and plain `http` redirect to `https://www.rostinc.com`, which matches the canonical URLs and the sitemap.
 
 ## Performance, Accessibility, and SEO
 
-- **Light page weight:** the homepage loads about 430 KB across 8 requests, including fonts and images, before the hero video. The video is loaded separately, and only when it will actually play.
+- **Light page weight:** the homepage loads about 450 KB across 9 requests, including fonts and images, before the hero video. The video and the map load separately, and only when they're actually needed.
 - **Self-hosted variable font:** two font files cover every weight, width, and italic used on the site, with no requests to Google Fonts.
 - **Responsive images:** served as WebP with JPEG fallbacks, sized to the screen, and lazy-loaded below the fold.
-- **Phone layout:** a dedicated layout tightens spacing, puts short items side by side, and keeps tap-to-call one tap away.
-- **Accessibility:** semantic landmarks and headings, labeled form fields, visible focus styles, keyboard-operable tabs, screen-reader text for icon-only and repeated links, and respect for `prefers-reduced-motion`.
-- **SEO:** canonical URLs, Open Graph tags for link previews, and `LocalBusiness` structured data (schema.org JSON-LD).
+- **Phone layout:** a dedicated layout tightens spacing, puts short items side by side, and keeps tap-to-call one tap away. Tested down to 320px wide.
+- **Accessibility:** semantic landmarks and an ordered heading outline, labeled form fields with high-contrast borders, focus outlines colored to stay visible on every background, keyboard-operable tabs, an Escape key that closes the phone menu and returns focus to its button, screen-reader text for icon-only and repeated links, and respect for `prefers-reduced-motion`.
+- **SEO:** canonical URLs, Open Graph and Twitter Card tags with full image URLs for link previews, an XML sitemap and `robots.txt`, and `LocalBusiness` structured data (schema.org JSON-LD).
 
 ## Technologies & Tools
 
 - HTML, CSS, and vanilla JavaScript (no frameworks or dependencies)
-- SVG for the map, icons, and brand marks
+- SVG for icons, brand marks, and map markers
+- Google Maps JavaScript API, with a domain- and API-restricted key
 - Git and GitHub for version control
-- Azure Static Web Apps for hosting
-- GitHub Actions for automated deployment (CI/CD)
+- Azure Static Web Apps for hosting, with routing, caching, and header rules
+- GitHub Actions for automated deployment (CI/CD) and pull request previews
 - Custom domain configuration and HTTPS
 - FFmpeg for video stabilization, looping, and encoding
 - Python (`pypdf`) for assembling the downloadable application packets
@@ -90,7 +107,7 @@ forms/                   Downloadable PDFs
 
 ## Live Website
 
-[Visit Rost Ready Mix](https://rostinc.com)
+[Visit Rost Ready Mix](https://www.rostinc.com)
 
 ## Repository Information
 
